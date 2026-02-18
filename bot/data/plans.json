@@ -1,0 +1,34 @@
+[
+  {
+    "id": "week3",
+    "title": "План на неделю (3 дня)",
+    "description": "Идеально для старта: сила, выносливость и гибкость по очереди.",
+    "days": [
+      { "day": "Понедельник", "program_id": "strength" },
+      { "day": "Среда", "program_id": "cardio" },
+      { "day": "Пятница", "program_id": "stretch" }
+    ]
+  },
+  {
+    "id": "week4",
+    "title": "План на неделю (4 дня)",
+    "description": "Больше нагрузки: две силовые и два кардио в неделю.",
+    "days": [
+      { "day": "Понедельник", "program_id": "strength" },
+      { "day": "Вторник", "program_id": "cardio" },
+      { "day": "Четверг", "program_id": "strength" },
+      { "day": "Пятница", "program_id": "cardio" }
+    ]
+  },
+  {
+    "id": "beginner4",
+    "title": "Для новичков (4 занятия)",
+    "description": "Щадящий план: 2 силовые, кардио и растяжка. Между днями есть отдых.",
+    "days": [
+      { "day": "Понедельник", "program_id": "block1" },
+      { "day": "Вторник", "program_id": "block2" },
+      { "day": "Четверг", "program_id": "block3" },
+      { "day": "Пятница", "program_id": "block4" }
+    ]
+  }
+]

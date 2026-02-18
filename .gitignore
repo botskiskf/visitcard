@@ -1,0 +1,38 @@
+# Секреты и токены — никогда не коммитить
+.env
+.env.local
+.env.*.local
+*.env.rtf
+*env*.rtf
+token.env*
+* token*
+bottoken*
+*.key
+secrets.*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+.venv/
+env/
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Локальная БД (создаётся при запуске)
+*.db
+*.sqlite
+*.sqlite3
+
+# Логи и временные файлы
+*.log
+*.tmp
+.cache/
