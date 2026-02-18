@@ -23,6 +23,12 @@ venv/
 .venv/
 env/
 
+# Node
+node_modules/
+
+# Vercel (локальная привязка к проекту)
+.vercel/
+
 # IDE / OS
 .idea/
 .vscode/
@@ -39,3 +45,4 @@ Thumbs.db
 *.log
 *.tmp
 .cache/
+.vercel
