@@ -53,15 +53,23 @@ async function callMiniMax(apiKey, userMessage) {
     }),
   });
 
-  if (!res.ok) {
-    const err = await res.text();
-    throw new Error(err || `API ${res.status}`);
+  const raw = await res.text();
+  if (!res.ok) throw new Error(raw || `API ${res.status}`);
+
+  const data = JSON.parse(raw);
+  if (data.base_resp && data.base_resp.status_code !== 0) {
+    throw new Error(data.base_resp.status_msg || 'MiniMax API error');
   }
 
-  const data = await res.json();
   const choice = data.choices && data.choices[0];
-  const content = choice?.message?.content ?? choice?.text ?? data.reply ?? '';
-  return content.trim() || 'Не удалось получить ответ. Попробуйте ещё раз или напишите на контакты с сайта.';
+  const content =
+    choice?.message?.content ??
+    choice?.message?.text ??
+    choice?.text ??
+    data.reply ??
+    (typeof data.choices?.[0] === 'string' ? data.choices[0] : '');
+  const text = (content && (typeof content === 'string' ? content : content.text || content.content)) || '';
+  return text.trim() || 'Не удалось получить ответ. Попробуйте ещё раз или напишите на контакты с сайта.';
 }
 
 module.exports = async function handler(req, res) {
