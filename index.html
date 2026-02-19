@@ -336,7 +336,10 @@
           addMessage(data.response, 'assistant');
         } catch (err) {
           removeTyping(typingId);
-          addMessage('Извините, произошла ошибка: ' + err.message, 'error');
+          var msg = err.message && err.message.toLowerCase().indexOf('insufficient balance') !== -1
+            ? 'Чат временно недоступен. Напишите нам на email или в соцсети — контакты ниже на странице.'
+            : 'Извините, произошла ошибка: ' + err.message;
+          addMessage(msg, err.message && err.message.indexOf('insufficient') !== -1 ? 'assistant' : 'error');
         }
         sendBtn.disabled = false;
       };
