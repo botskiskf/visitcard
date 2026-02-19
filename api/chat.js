@@ -43,7 +43,7 @@ async function callMiniMax(apiKey, userMessage) {
       Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: 'M2-her',
+      model: 'MiniMax-M2.5',
       messages: [
         { role: 'system', name: 'Assistant', content: SYSTEM_PROMPT },
         { role: 'user', name: 'User', content: userMessage },
