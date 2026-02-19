@@ -328,18 +328,27 @@
         input.value = '';
         sendBtn.disabled = true;
         var typingId = addTyping();
+        var timeoutMs = 20000;
+        var controller = new AbortController();
+        var timeoutId = setTimeout(function() { controller.abort(); }, timeoutMs);
         try {
-          var res = await fetch(config.apiUrl || '/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: message }) });
+          var res = await fetch(config.apiUrl || '/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: message }), signal: controller.signal });
+          clearTimeout(timeoutId);
           removeTyping(typingId);
           if (!res.ok) { var err = await res.json(); throw new Error(err.error || 'Ошибка запроса'); }
           var data = await res.json();
-          addMessage(data.response, 'assistant');
+          addMessage(data.response || 'Нет ответа.', 'assistant');
         } catch (err) {
+          clearTimeout(timeoutId);
           removeTyping(typingId);
-          var msg = err.message && err.message.toLowerCase().indexOf('insufficient balance') !== -1
-            ? 'Чат временно недоступен. Напишите нам на email или в соцсети — контакты ниже на странице.'
-            : 'Извините, произошла ошибка: ' + err.message;
-          addMessage(msg, err.message && err.message.indexOf('insufficient') !== -1 ? 'assistant' : 'error');
+          var isAbort = err.name === 'AbortError';
+          var isBalance = err.message && err.message.toLowerCase().indexOf('insufficient balance') !== -1;
+          var msg = isAbort
+            ? 'Ответ занимает дольше обычного. Попробуйте написать короче или напишите нам на email — контакты ниже.'
+            : isBalance
+              ? 'Чат временно недоступен. Напишите нам на email или в соцсети — контакты ниже на странице.'
+              : 'Извините, произошла ошибка: ' + err.message;
+          addMessage(msg, isAbort || isBalance ? 'assistant' : 'error');
         }
         sendBtn.disabled = false;
       };
